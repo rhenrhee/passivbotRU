@@ -7,17 +7,29 @@
 v7.3.1
 
 
-## Overview
+## Вводная часть
 
-Passivbot is a cryptocurrency trading bot written in Python and Rust, intended to require minimal user intervention.  
+PassivBot (далее сокр. PB) – полностью автоматизированный торговый робот, построенный с использованием языка «python» и «RUST» (одна из реализаций языка С++). Имплементация на RUST была добавлена с седьмой версии продукта. Основной целью разработки данного инструмента являлось создание стабильного инструмента, сочетающего в себе низкорисковую торговлю в сочетании с возможностью накопления прибыли в течение кратного времени (час, день, неделя, месяц и т.д.) без ручного воздействия на рынок.
 
-It operates on perpetual futures derivatives markets, automatically creating and cancelling limit buy and sell orders on behalf of the user. It does not try to predict future price movements, it does not use technical indicators, nor does it follow trends. Rather, it is a contrarian market maker, providing resistance to price changes in both directions, thereby "serving the market" as a price stabilizer.  
+Торговый робот PB торгует на фьючерсных[1] и спотовых[2] рынках, используя продвинутую форму сеточной (grid)[3] торговли, когда ордеры размещаются как на закрытие, так и на открытие.
 
-Passivbot's behavior may be backtested on historical price data, using the included backtester whose CPU heavy functions are written in Rust for speed. Also included is an optimizer, which finds better configurations by iterating thousands of backtests with different candidates, converging on the optimal ones with an evolutionary algorithm.  
+[1] Фьючерс — это когда две стороны договариваются по поводу стоимости какого-то актива в будущем. Продавец надеется, что актив будет стоить дешевле, а покупатель ждёт высоких цен. Другими словами, фьючерс — это почти что пари. Стороны спорят, вырастет цена актива или упадёт. При этом, в отличие от опциона, исполнить контракт должны обе стороны — и продавец, и покупатель.
+[2] Спотовая торговля — форма, при которой покупка и продажа актива происходит немедленно на основе спотовой цены, которая определяется на момент сделки. Спотовая торговля является одним из самых распространенных видов торговли на рынках ценных бумаг, валютных пар, сырьевых товаров и других активов. Оплата и поставка актива происходят немедленно или в течение нескольких рабочих дней, в зависимости от условий.
+[3] Сеточная торговля — это бот для автоматизации торговли фьючерсными контрактами. Она предназначена для размещения ордеров через заданные интервалы в заданном ценовом диапазоне. Во время использования данной стратегии ордера размещаются выше и ниже установленной цены, создавая сетку ордеров с постепенным увеличением и уменьшением цен. В результате создается торговая сетка.
 
-## Strategy
+## О стратегии работы
 
-Inspired by the Martingale betting strategy, the robot will make a small initial entry and double down on its losing positions multiple times to bring the average entry price closer to current price action. The orders are placed in a grid, ready to absorb sudden price movements. After each re-entry, the robot quickly updates its closing orders at a set take-profit markup. This way, if there is even a minor market reversal, or "bounce", the position can be closed in profit, and it starts over.  
+Автоматизированный робот представляет собой python-скрипт, которому для осуществления торговли требуется предоставить доступ к учётной записи пользователя на бирже. PB «прослушивает» поток текущих сделок через websocket на выбранном рынке (пара), создавая автоматически и/или отменяя автоматически лимитные ордера на покупку и/или продажу. 
+
+PB работает на фьючерских и спотовых рынках. Используя режим хеджирования, можно открывать одновременно длинные и короткие позиции. На спотовых рынках робот имитирует поведение фьючерсов, открывая только длинные позиции с максимальным кредитным плечом в 1Х. 
+
+Торговый робот основывает свои решения на позициях по счёту, открытых ордерах, балансе, а также на нескольких EMA[1]различного диапазона. EMA используется как правило для сглаживания Take-Profit и Stop-Loss позиций. 
+
+Режим работы PB в реальном времени детерминировано и может быть смоделировано в том числе и на исторических данных с помощью инструментов так называемого бэк-тестера. Изменить режим работы можно в настройках в соответствии с конкретным рынком и предпочтением пользователя. 
+
+Параметры конфигурации возможно оптимизировать для конкретного периода исторических данных путём обратного тестирования, что позволит прийти к той конфигурации, которая покажет наиболее лучшие результаты торговли. 
+
+[1] EMA — отличный инструмент для экспоненциального сглаживания цен и устранения краткосрочных колебаний (шума). Из-за высокой волатильности цен такие колебания в криптоиндустрии происходят постоянно.
 
 ### Trailing Orders
 In addition to grid-based entries and closes, Passivbot may be configured to utilize trailing entries and trailing closes.
