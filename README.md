@@ -44,11 +44,11 @@ The Forager feature dynamically chooses the most volatile markets on which to op
 ### Unstucking Mechanism
 Passivbot manages underperforming, or "stuck", positions by realizing small losses over time. If multiple positions are stuck, the bot prioritizes positions with the smallest gap between the entry price and current market price for "unstucking". Losses are limited by ensuring that the account balance does not fall under a set percentage below the past peak balance.  
 
-## Installation
+## Установка
 
 To install Passivbot and its dependencies, follow the steps below.
 
-### Step 1: Clone the Repository
+### Step 1: Копирование репозитория
 
 First, clone the Passivbot repository to the local machine:
 
@@ -58,14 +58,14 @@ cd passivbot
 ```
 
 
-### Step 2: Install Rust
+### Step 2: Установка Rust
 Passivbot uses Rust for some of its components. Install Rust by following these steps:
 
 Visit https://www.rust-lang.org/tools/install
 Follow the instructions to install Rustup, the Rust installer and version management tool.
 After installation, restart the terminal or command prompt.
 
-### Step 3: Create and Activate a Virtual Environment
+### Step 3: Создание и активация виртуального окружения (среды)
 
 Create a virtual environment to manage dependencies:
 
@@ -79,7 +79,7 @@ Activate the virtual environment:
 source venv/bin/activate
 ```
 
-### Step 4: Install Python Dependencies
+### Step 4: Установка зависимостей Python
 
 Install all the required Python dependencies listed in the `requirements.txt` file:
 
@@ -87,7 +87,7 @@ Install all the required Python dependencies listed in the `requirements.txt` fi
 pip install -r requirements.txt
 ```
 
-### Step 5 (optional): Build Rust Extensions
+### Step 5 (optional): Сборка (компиляция) библиотек Rust
 
 Passivbot will attempt to build the necessary Rust extensions automatically, but they can also be built manually by navigating to the `passivbot-rust` directory and using `maturin`:
 
@@ -99,7 +99,7 @@ cd ..
 
 If changes in the Rust source are detected, recompilation is needed, which Passivbot will attempt to do automatically when starting. To manually recompile, use the commands given above.
 
-### Step 6: Add API keys
+### Step 6: Добавление API keys
 
 Make a copy of the api-keys template file:
 
@@ -109,7 +109,7 @@ cp api-keys.json.example api-keys.json
 
 Add your keys to api-keys.json.
 
-### Step 7: Run Passivbot
+### Step 7: Запуск PassivBot
 
 To start the bot with the default settings, run:
 
@@ -131,7 +131,7 @@ Jupyter lab needs to be run in the same virtual environment as the bot. Activate
 python3 -m jupyter lab
 ```
 
-## Requirements
+## Системные требования
 
 - Python >= 3.8
 - [requirements.txt](requirements.txt) dependencies
@@ -142,9 +142,9 @@ Coming soon...
 
 See also https://pbconfigdb.scud.dedyn.io/
 
-## Documentation:
+## Документация:
 
-For more detailed information about Passivbot, see documentation files here: [docs/](docs/)
+For more detailed information about Passivbot, see documentation files here: https://quanttrading.ru/passivbot/
 
 ## Support
 
